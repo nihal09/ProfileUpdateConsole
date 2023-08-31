@@ -1,7 +1,25 @@
 import React, {useEffect, useState} from 'react';
 import '/Users/nihal.s/Downloads/business-profile-updater/src/styles/styles.css';
-import {Alert, Box, Button, CircularProgress, Grid, InputLabel, Snackbar, TextField} from "@mui/material";
+import {
+    Alert,
+    AppBar,
+    Box,
+    Button,
+    CircularProgress,
+    Container,
+    Grid,
+    InputAdornment,
+    InputLabel,
+    Snackbar,
+    TextField, Toolbar,
+    Typography
+} from "@mui/material";
 import {green} from "@mui/material/colors";
+import {
+    Business,
+    Email,
+    Web
+} from "@mui/icons-material";
 
 interface Address {
     addressLine1: string;
@@ -48,7 +66,7 @@ export const BusinessProfileForm = ({userId, profileId}: { userId: string, profi
             city: '',
             state: '',
             zip: '',
-            country: 'India',
+            country: '',
         },
         taxIdentifiers: {
             pan: '',
@@ -112,7 +130,7 @@ export const BusinessProfileForm = ({userId, profileId}: { userId: string, profi
 
     const getProfileInfo = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/api/business-profiles/get-business-profile/`+profileId, {
+            const response = await fetch(`http://localhost:8080/api/business-profiles/get-business-profile/` + profileId, {
                 method: 'GET',
                 mode: 'cors',
                 headers: {
@@ -137,7 +155,7 @@ export const BusinessProfileForm = ({userId, profileId}: { userId: string, profi
     }
     useEffect(() => {
         getProfileInfo()
-    },[])
+    }, [])
     const handleInputChange = (
         event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
@@ -200,7 +218,31 @@ export const BusinessProfileForm = ({userId, profileId}: { userId: string, profi
 
     return (
         <div className="form-container">
-            <h2>Update Business Profile for User ID: {userId}</h2>
+            <AppBar position="static" color={"transparent"}>
+                <Container maxWidth="xl">
+                    <Toolbar disableGutters>
+                        <Business sx={{display: {xs: 'none', md: 'flex'}, mr: 1}}/>
+                        <Typography
+                            variant="h6"
+                            noWrap
+                            component="a"
+                            href="/"
+                            sx={{
+                                mr: 2,
+                                display: {xs: 'none', md: 'flex'},
+                                fontFamily: 'Helvetica',
+                                fontWeight: 600,
+                                letterSpacing: '.2rem',
+                                color: 'inherit',
+                                textDecoration: 'none',
+                            }}
+                        >
+                            BUSINESS PROFILE
+                        </Typography>
+                    </Toolbar>
+                </Container>
+            </AppBar>
+            <br/>
             <form onSubmit={handleFormSubmit}>
                 <Grid container spacing={2}>
                     <Grid item xs={6}>
@@ -240,7 +282,7 @@ export const BusinessProfileForm = ({userId, profileId}: { userId: string, profi
                         id="outlined-basic"
                         label="Business Address Line1"
                         name="businessAddressLine1"
-                        variant="outlined"
+                        variant="filled"
                         className="input-field"
                         value={businessProfile.businessAddress.addressLine1}
                         onChange={(e) => handleBusinessAddressChange(e, 'addressLine1')}
@@ -252,7 +294,7 @@ export const BusinessProfileForm = ({userId, profileId}: { userId: string, profi
                         id="outlined-basic"
                         label="Business Address Line2"
                         name="businessAddressLine2"
-                        variant="outlined"
+                        variant="filled"
                         className="input-field"
                         value={businessProfile.businessAddress.addressLine2}
                         onChange={(e) => handleBusinessAddressChange(e, 'addressLine2')}
@@ -266,7 +308,7 @@ export const BusinessProfileForm = ({userId, profileId}: { userId: string, profi
                                 id="outlined-basic"
                                 label="City"
                                 name="city"
-                                variant="outlined"
+                                variant="filled"
                                 className="input-field"
                                 value={businessProfile.businessAddress.city}
                                 onChange={(e) => handleBusinessAddressChange(e, 'city')}
@@ -280,7 +322,7 @@ export const BusinessProfileForm = ({userId, profileId}: { userId: string, profi
                                 id="outlined-basic"
                                 label="State"
                                 name="state"
-                                variant="outlined"
+                                variant="filled"
                                 className="input-field"
                                 value={businessProfile.businessAddress.state}
                                 onChange={(e) => handleBusinessAddressChange(e, 'state')}
@@ -294,7 +336,7 @@ export const BusinessProfileForm = ({userId, profileId}: { userId: string, profi
                                 id="outlined-basic"
                                 label="Zip"
                                 name="zip"
-                                variant="outlined"
+                                variant="filled"
                                 className="input-field"
                                 value={businessProfile.businessAddress.zip}
                                 onChange={(e) => handleBusinessAddressChange(e, 'zip')}
@@ -308,7 +350,7 @@ export const BusinessProfileForm = ({userId, profileId}: { userId: string, profi
                                 id="outlined-basic"
                                 label="Country"
                                 name="country"
-                                variant="outlined"
+                                variant="filled"
                                 className="input-field"
                                 value={businessProfile.businessAddress.country}
                                 onChange={(e) => handleBusinessAddressChange(e, 'country')}
@@ -324,7 +366,7 @@ export const BusinessProfileForm = ({userId, profileId}: { userId: string, profi
                         id="outlined-basic"
                         label="Legal Address Line1"
                         name="legalAddressLine1"
-                        variant="outlined"
+                        variant="filled"
                         className="input-field"
                         value={businessProfile.legalAddress.addressLine1}
                         onChange={(e) => handleLegalAddressChange(e, 'addressLine1')}
@@ -336,7 +378,7 @@ export const BusinessProfileForm = ({userId, profileId}: { userId: string, profi
                         id="outlined-basic"
                         label="Legal Address Line2"
                         name="legalAddressLine2"
-                        variant="outlined"
+                        variant="filled"
                         className="input-field"
                         value={businessProfile.legalAddress.addressLine2}
                         onChange={(e) => handleLegalAddressChange(e, 'addressLine2')}
@@ -350,7 +392,7 @@ export const BusinessProfileForm = ({userId, profileId}: { userId: string, profi
                                 id="outlined-basic"
                                 label="City"
                                 name="city"
-                                variant="outlined"
+                                variant="filled"
                                 className="input-field"
                                 value={businessProfile.legalAddress.city}
                                 onChange={(e) => handleLegalAddressChange(e, 'city')}
@@ -364,7 +406,7 @@ export const BusinessProfileForm = ({userId, profileId}: { userId: string, profi
                                 id="outlined-basic"
                                 label="State"
                                 name="state"
-                                variant="outlined"
+                                variant="filled"
                                 className="input-field"
                                 value={businessProfile.legalAddress.state}
                                 onChange={(e) => handleLegalAddressChange(e, 'state')}
@@ -378,7 +420,7 @@ export const BusinessProfileForm = ({userId, profileId}: { userId: string, profi
                                 id="outlined-basic"
                                 label="Zip"
                                 name="zip"
-                                variant="outlined"
+                                variant="filled"
                                 className="input-field"
                                 value={businessProfile.legalAddress.zip}
                                 onChange={(e) => handleLegalAddressChange(e, 'zip')}
@@ -392,7 +434,7 @@ export const BusinessProfileForm = ({userId, profileId}: { userId: string, profi
                                 id="outlined-basic"
                                 label="Country"
                                 name="country"
-                                variant="outlined"
+                                variant="filled"
                                 className="input-field"
                                 value={businessProfile.legalAddress.country}
                                 onChange={(e) => handleLegalAddressChange(e, 'country')}
@@ -441,6 +483,13 @@ export const BusinessProfileForm = ({userId, profileId}: { userId: string, profi
                                 name="website"
                                 variant="outlined"
                                 className="input-field"
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <Web/>
+                                        </InputAdornment>
+                                    ),
+                                }}
                                 value={businessProfile.website}
                                 onChange={handleInputChange}
                             />
@@ -455,6 +504,13 @@ export const BusinessProfileForm = ({userId, profileId}: { userId: string, profi
                                 name="email"
                                 variant="outlined"
                                 className="input-field"
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <Email/>
+                                        </InputAdornment>
+                                    ),
+                                }}
                                 value={businessProfile.email}
                                 onChange={handleInputChange}
                             />
